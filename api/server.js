@@ -22,9 +22,9 @@ app.post('/crear-preferencia', async (req, res) => {
       body: JSON.stringify({
         items: items,
         back_urls: {
-          success: 'https://trukodtf.com.ar',
+          success: 'https://trukodtf.com.ar/gracias.html',
           failure: 'https://trukodtf.com.ar',
-          pending: 'https://trukodtf.com.ar'
+          pending: 'https://trukodtf.com.ar/gracias.html'
         },
         auto_return: 'approved',
         statement_descriptor: 'TRUKO DTF'
