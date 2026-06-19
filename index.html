@@ -603,7 +603,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
     <div class="sec-title">Tamaño del diseño</div>
     <div class="sec-nota" style="color:white;font-size:0.65rem;font-weight:700;letter-spacing:0.5px;margin-bottom:10px;">El tamaño define el lado más largo de la imagen</div>
     <div class="tams">
-      <div class="tam sel" onclick="selTam(0)" id="t0"><div class="tam-med">9cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para: escudo y decoración</div></div>
+      <div class="tam sel" onclick="selTam(0)" id="t0"><div class="tam-med">8cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para: escudo y decoración</div></div>
       <div class="tam" onclick="selTam(1)" id="t1"><div class="tam-med">19cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para prendas chicas</div></div>
       <div class="tam" onclick="selTam(2)" id="t2"><div class="tam-med">29cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para prendas grandes</div></div>
     </div>
@@ -681,7 +681,7 @@ const productos = [];
 window.productos = productos;
 const precios=[900,2000,3000];
 window.precios = precios;
-const tamLabels=["9cm","19cm","29cm"];
+const tamLabels=["8cm","19cm","29cm"];
 const catTitles={todos:'Todos los diseños',mundial:'Mundial',infantil:'Infantil',frases:'Frases',clubes:'Clubes',anime:'Anime',musica:'Música',detodo:'De Todo'};
 const badgeClass={mundial:'badge-mundial',infantil:'badge-infantil',clubes:'badge-clubes',frases:'badge-frases',anime:'badge-anime',musica:'badge-musica',detodo:'badge-detodo',varios:'badge-detodo'};
 let carrito=[],prodActual=null,tamSel=0,cantSel=1,catActual='mundial',busquedaActual='';
@@ -953,7 +953,7 @@ window.renderGrilla = renderGrilla;
       <div style="font-family:'Bebas Neue',cursive;font-size:1rem;color:white;letter-spacing:3px;margin-bottom:14px;">💰 PRECIOS POR TAMAÑO</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
         <div>
-          <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">9cm</label>
+          <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">8cm</label>
           <input id="precio10" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="900">
         </div>
         <div>
