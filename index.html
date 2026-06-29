@@ -86,7 +86,7 @@
       const precioDoc = await getDoc(doc(db, "config", "precios"));
       if (precioDoc.exists()) {
         const p = precioDoc.data();
-        window.precios = [p.p9, p.p19, p.p29];
+        window.precios = [p.p8, p.p20, p.p25, p.p29];
       }
 
       // Cargar logo
@@ -143,8 +143,8 @@
   };
 
   // ─── GUARDAR PRECIOS ───
-  window.fbGuardarPrecios = async function(p9, p19, p29) {
-    try { await setDoc(doc(db, "config", "precios"), { p9, p19, p29 }); } catch(e) { console.warn("Firebase: error guardando precios", e); }
+  window.fbGuardarPrecios = async function(p8, p20, p25, p29) {
+    try { await setDoc(doc(db, "config", "precios"), { p8, p20, p25, p29 }); } catch(e) { console.warn("Firebase: error guardando precios", e); }
   };
 
   // ─── GUARDAR LOGO URL en Firestore ───
@@ -315,13 +315,19 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
 .sheet-codigo { font-size:0.5rem; color:var(--suave); letter-spacing:2px; margin-bottom:16px; }
 .sec-title { font-size:0.58rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); margin-bottom:6px; }
 .sec-nota { font-size:0.52rem; color:rgba(255,255,255,0.3); margin-bottom:10px; letter-spacing:0.5px; line-height:1.4; }
-.tams { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+.tams { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:10px; }
 .tam { border:1.5px solid rgba(255,255,255,0.1); border-radius:10px; padding:10px 6px; text-align:center; cursor:pointer; transition:all 0.15s; background:rgba(255,255,255,0.03); }
 .tam.sel { background:#111; border-color:white; border-width:2.5px; }
 .tam-med { font-family:'Bebas Neue',cursive; font-size:1rem; color:white; letter-spacing:1px; }
 .tam.sel .tam-med { color:white; }
-.tam-pr { font-size:0.46rem; font-weight:700; color:rgba(255,255,255,0.4); margin-top:2px; line-height:1.3; }
+.tam-alto { font-size:0.46rem; color:rgba(255,255,255,0.4); margin-top:2px; line-height:1.3; }
+.tam.sel .tam-alto { color:rgba(255,255,255,0.55); }
+.tam-pr { font-size:0.46rem; font-weight:700; color:rgba(255,255,255,0.4); margin-top:5px; line-height:1.3; }
 .tam.sel .tam-pr { color:rgba(255,255,255,0.6); }
+.tam-precio { font-size:0.72rem; font-weight:700; color:#22d3ee; margin-top:6px; }
+.aviso-tam { background:rgba(255,80,60,0.12); border:1px solid rgba(255,80,60,0.4); border-radius:8px; padding:8px 10px; margin-bottom:16px; }
+.aviso-tam-tit { font-size:0.5rem; font-weight:900; color:#ff8a73; letter-spacing:0.5px; text-transform:uppercase; }
+.aviso-tam-txt { font-size:0.48rem; color:rgba(255,180,165,0.9); margin-top:3px; line-height:1.4; }
 .cant-total { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
 .cant-ctrl { display:flex; align-items:center; border:1.5px solid rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; background:rgba(255,255,255,0.03); }
 .cant-btn { width:40px; height:40px; background:rgba(255,255,255,0.05); border:none; font-size:1.2rem; font-weight:700; cursor:pointer; color:white; }
@@ -600,13 +606,14 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
     <div class="sheet-cat" id="sheetCat"></div>
     <div class="sheet-nombre" id="sheetNombre"></div>
     <div class="sheet-codigo" id="sheetCodigo"></div>
-    <div class="sec-title">Tamaño del diseño</div>
-    <div class="sec-nota" style="color:white;font-size:0.65rem;font-weight:700;letter-spacing:0.5px;margin-bottom:10px;">El tamaño define el lado más largo de la imagen</div>
+    <div class="sec-title" style="text-align:center;">Elegí tu medida</div>
     <div class="tams">
-      <div class="tam sel" onclick="selTam(0)" id="t0"><div class="tam-med">8cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para: escudo y decoración</div></div>
-      <div class="tam" onclick="selTam(1)" id="t1"><div class="tam-med">19cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para prendas chicas</div></div>
-      <div class="tam" onclick="selTam(2)" id="t2"><div class="tam-med">29cm</div><div class="tam-sublabel" style="font-size:0.4rem;opacity:0.6;margin-top:1px;letter-spacing:0.3px;">lado más largo</div><div class="tam-pr">Ideal para prendas grandes</div></div>
+      <div class="tam sel" onclick="selTam(0)" id="t0"><div class="tam-med">8cm</div><div class="tam-alto">por su proporcional, siendo su máximo 9cm de alto</div><div class="tam-pr">Ideal para: escudos y decoraciones</div><div class="tam-precio">$500</div></div>
+      <div class="tam" onclick="selTam(1)" id="t1"><div class="tam-med">20cm</div><div class="tam-alto">por su proporcional, siendo su máximo 27cm de alto</div><div class="tam-pr">Ideal para talles: 8, 10, 12</div><div class="tam-precio">$2000</div></div>
+      <div class="tam" onclick="selTam(2)" id="t2"><div class="tam-med">25cm</div><div class="tam-alto">por su proporcional, siendo su máximo 30cm de alto</div><div class="tam-pr">Ideal para talles: 14, XS, S</div><div class="tam-precio">$2800</div></div>
+      <div class="tam" onclick="selTam(3)" id="t3"><div class="tam-med">29cm</div><div class="tam-alto">por su proporcional, siendo su máximo 40cm de alto</div><div class="tam-pr">Ideal para talles: M, L, XL</div><div class="tam-precio">$3600</div></div>
     </div>
+    <div class="aviso-tam"><div class="aviso-tam-tit">Importante</div><div class="aviso-tam-txt">El tamaño final del diseño estará dado por su ancho o alto máximo.</div></div>
     <div class="sec-title">Cantidad</div>
     <div class="cant-total">
       <div class="cant-ctrl">
@@ -679,9 +686,9 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
 <script>
 const productos = [];
 window.productos = productos;
-const precios=[900,2000,3000];
+const precios=[500,2000,2800,3600];
 window.precios = precios;
-const tamLabels=["8cm","19cm","29cm"];
+const tamLabels=["8cm","20cm","25cm","29cm"];
 const catTitles={todos:'Todos los diseños',mundial:'Mundial',infantil:'Infantil',frases:'Frases',clubes:'Clubes',anime:'Anime',musica:'Música',detodo:'De Todo'};
 const badgeClass={mundial:'badge-mundial',infantil:'badge-infantil',clubes:'badge-clubes',frases:'badge-frases',anime:'badge-anime',musica:'badge-musica',detodo:'badge-detodo',varios:'badge-detodo'};
 let carrito=[],prodActual=null,tamSel=0,cantSel=1,catActual='mundial',busquedaActual='';
@@ -738,7 +745,7 @@ function abrirSheet(id){
   document.getElementById('sheetNombre').textContent=prodActual.nombre;
   document.getElementById('sheetCodigo').textContent=prodActual.codigo;
   document.getElementById('sheetCat').textContent=prodActual.cat.charAt(0).toUpperCase()+prodActual.cat.slice(1);
-  [0,1,2].forEach(i=>document.getElementById('t'+i).classList.toggle('sel',i===0));
+  [0,1,2,3].forEach(i=>document.getElementById('t'+i).classList.toggle('sel',i===0));
   actualizarSheet();
   document.getElementById('overlay').classList.add('open');
   document.getElementById('sheet').classList.add('open');
@@ -751,7 +758,7 @@ function cerrarSheet(){
   document.body.style.overflow='';
 }
 
-function selTam(i){tamSel=i;[0,1,2].forEach(j=>document.getElementById('t'+j).classList.toggle('sel',j===i));actualizarSheet();}
+function selTam(i){tamSel=i;[0,1,2,3].forEach(j=>document.getElementById('t'+j).classList.toggle('sel',j===i));actualizarSheet();}
 function cambiarCant(d){cantSel=Math.max(1,cantSel+d);actualizarSheet();}
 function actualizarSheet(){document.getElementById('cantNum').textContent=cantSel;document.getElementById('totalNum').textContent='$'+(precios[tamSel]*cantSel).toLocaleString();}
 
@@ -951,18 +958,22 @@ window.renderGrilla = renderGrilla;
     <!-- SECCIÓN PRECIOS -->
     <div style="background:#111;border-radius:14px;padding:20px;margin-bottom:30px;border:1px solid #222;">
       <div style="font-family:'Bebas Neue',cursive;font-size:1rem;color:white;letter-spacing:3px;margin-bottom:14px;">💰 PRECIOS POR TAMAÑO</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
         <div>
           <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">8cm</label>
-          <input id="precio10" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="900">
+          <input id="precio10" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="500">
         </div>
         <div>
-          <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">19cm</label>
-          <input id="precio20" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="1600">
+          <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">20cm</label>
+          <input id="precio20" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="2000">
+        </div>
+        <div>
+          <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">25cm</label>
+          <input id="precio25" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="2800">
         </div>
         <div>
           <label style="font-size:0.55rem;color:#666;letter-spacing:1px;display:block;margin-bottom:4px;">29cm</label>
-          <input id="precio30" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="2400">
+          <input id="precio30" type="number" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #222;border-radius:8px;color:white;font-size:0.75rem;outline:none;font-family:'Montserrat',sans-serif;" value="3600">
         </div>
       </div>
       <button onclick="actualizarPrecios()" style="width:100%;padding:12px;background:#FFD600;color:#0A0A0F;border:none;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:0.9rem;letter-spacing:3px;cursor:pointer;margin-top:12px;">💾 GUARDAR PRECIOS</button>
@@ -1259,16 +1270,18 @@ function eliminarProducto(id) {
 }
 
 function actualizarPrecios() {
-  const p10 = parseInt(document.getElementById('precio10').value) || 800;
-  const p20 = parseInt(document.getElementById('precio20').value) || 1600;
-  const p30 = parseInt(document.getElementById('precio30').value) || 2400;
+  const p10 = parseInt(document.getElementById('precio10').value) || 500;
+  const p20 = parseInt(document.getElementById('precio20').value) || 2000;
+  const p25 = parseInt(document.getElementById('precio25').value) || 2800;
+  const p30 = parseInt(document.getElementById('precio30').value) || 3600;
   precios[0] = p10;
   precios[1] = p20;
-  precios[2] = p30;
+  precios[2] = p25;
+  precios[3] = p30;
 
   // Guardar en Firebase
   if (typeof window.fbGuardarPrecios === 'function') {
-    window.fbGuardarPrecios(p10, p20, p30);
+    window.fbGuardarPrecios(p10, p20, p25, p30);
   }
 
   mostrarToast('✓ Precios guardados en la nube');
