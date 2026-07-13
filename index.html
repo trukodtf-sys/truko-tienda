@@ -250,8 +250,8 @@ body.has-cart-bar .wa-float { bottom:90px; }
 /* CARD */
 .card { background:#111; border-radius:14px; overflow:hidden; cursor:pointer; transition:transform 0.15s; border:1px solid rgba(255,255,255,0.06); }
 .card:active { transform:scale(0.97); }
-.card-img { width:100%; aspect-ratio:1; background-color: #fff; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-.card-img-inner { width:100%; height:100%; object-fit:cover; position:relative; z-index:2; }
+.card-img { width:100%; aspect-ratio:3/4; background-color: #fff; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.card-img-inner { width:100%; height:100%; object-fit:contain; position:relative; z-index:2; }
 .card-img-emoji { font-size:3.2rem; position:relative; z-index:2; }
 .card-body { padding:0; }
 .card-footer-promo { padding:8px 0; text-align:center; font-size:0.52rem; font-weight:900; letter-spacing:1.5px; text-transform:uppercase; color:var(--cyan); background:rgba(0,180,255,0.08); border-top:1px solid rgba(0,180,255,0.15); }
@@ -435,7 +435,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
   <div class="section-title">CATEGORÍAS</div>
   <div class="cats">
     <button class="cat-btn cat-dtftextil active" onclick="irSeccion('dtf-textil')" id="cat-dtf-textil">DTF TEXTIL</button>
-    <button class="cat-btn cat-dtfuv" onclick="irSeccion('dtf-uv')" id="cat-dtf-uv">DTF UV<span class="cat-tag-proximamente">PRÓX.</span></button>
+    <button class="cat-btn cat-dtfuv" onclick="irSeccion('dtf-uv')" id="cat-dtf-uv">DTF UV<br><span style="font-size:0.5rem;letter-spacing:1px;opacity:0.6;">(PRÓXIMAMENTE)</span></button>
     <button class="cat-btn cat-indumentaria" onclick="irSeccion('indumentaria')" id="cat-indumentaria">INDUMENTARIA</button>
   </div>
   <div style="margin-top:10px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
