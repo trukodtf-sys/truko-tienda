@@ -970,6 +970,7 @@ function renderGrillaIndu(){
     </div>`).join('');
 }
 window.renderGrillaIndu = renderGrillaIndu;
+renderGrillaIndu();
 
 function abrirSheetIndu(id){
   prodActualIndu = productosIndu.find(p=>p.id===id);
@@ -1191,10 +1192,10 @@ function agregarAlCarritoIndu(){
         <label style="font-size:0.58rem;color:#666;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:4px;">Fondo de imagen</label>
         <div style="display:flex;gap:8px;">
           <label style="display:flex;align-items:center;gap:4px;font-size:0.65rem;color:white;cursor:pointer;">
-            <input type="radio" name="fondoIndu" value="blanco" checked onchange="_fondoActualIndu='blanco'"> Blanco
+            <input type="radio" name="fondoIndu" value="blanco" checked onchange="window._fondoActualIndu='blanco'"> Blanco
           </label>
           <label style="display:flex;align-items:center;gap:4px;font-size:0.65rem;color:white;cursor:pointer;">
-            <input type="radio" name="fondoIndu" value="negro" onchange="_fondoActualIndu='negro'"> Negro
+            <input type="radio" name="fondoIndu" value="negro" onchange="window._fondoActualIndu='negro'"> Negro
           </label>
         </div>
       </div>
@@ -1507,12 +1508,12 @@ function eliminarProducto(id) {
 // ═══════════════════════════════════════════
 // ADMIN INDUMENTARIA
 // ═══════════════════════════════════════════
-let _archivoImagenInduPendiente = null;
-let _fondoActualIndu = 'blanco';
+window._archivoImagenInduPendiente = null;
+window._fondoActualIndu = 'blanco';
 
 function previewImagenIndu(input){
   if(!input.files||!input.files[0]) return;
-  _archivoImagenInduPendiente = input.files[0];
+  window._archivoImagenInduPendiente = input.files[0];
   const reader = new FileReader();
   reader.onload = e => {
     document.getElementById('newImgPreviewIndu').style.display='block';
@@ -1527,8 +1528,8 @@ async function agregarProductoIndu(){
 
   mostrarToast('⏳ Subiendo imagen...');
   let imgUrl = null;
-  if(_archivoImagenInduPendiente && typeof window.cloudinarySubir === 'function'){
-    imgUrl = await window.cloudinarySubir(_archivoImagenInduPendiente, nombre);
+  if(window._archivoImagenInduPendiente && typeof window.cloudinarySubir === 'function'){
+    imgUrl = await window.cloudinarySubir(window._archivoImagenInduPendiente, nombre);
     if(!imgUrl){mostrarToast('⚠ Error al subir la imagen');return;}
   }
 
@@ -1538,7 +1539,7 @@ async function agregarProductoIndu(){
     nombre: nombre,
     emoji: '👕',
     imgSrc: imgUrl || null,
-    fondo: _fondoActualIndu,
+    fondo: window._fondoActualIndu,
     tipo: 'indumentaria'
   };
 
@@ -1549,7 +1550,7 @@ async function agregarProductoIndu(){
   }
 
   productosIndu.push(nuevoProd);
-  _archivoImagenInduPendiente = null;
+  window._archivoImagenInduPendiente = null;
   document.getElementById('newNombreIndu').value = '';
   document.getElementById('newImgPreviewIndu').style.display = 'none';
   document.getElementById('newImgPreviewImgIndu').src = '';
