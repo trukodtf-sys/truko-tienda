@@ -248,7 +248,7 @@ body.has-cart-bar .wa-float { bottom:90px; }
 .section-title { font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:3px; color:white; margin-bottom:12px; }
 .cats { display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
 .cats::-webkit-scrollbar { display:none; }
-.cat-btn { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px 8px; border-radius:14px; font-family:'Bebas Neue',cursive; font-size:0.7rem; letter-spacing:2px; cursor:pointer; border:1.5px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); white-space:nowrap; transition:all 0.2s; min-width:60px; }
+.cat-btn { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px 8px; border-radius:14px; font-family:'Bebas Neue',cursive; font-size:0.95rem; letter-spacing:2px; cursor:pointer; border:1.5px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); white-space:nowrap; transition:all 0.2s; min-width:60px; }
 .cat-btn svg { flex-shrink:0; }
 .cat-btn.active { background:rgba(255,255,255,0.08); color:white; }
 .cat-btn:hover { color:white; }
@@ -387,7 +387,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
   /* Categorías desktop - ancho completo espaciado */
   .cats-section { padding: 24px 40px; }
   .cats { display: flex; gap: 12px; width: 100%; justify-content: space-between; }
-  .cat-btn { flex: 1; padding: 14px 10px; font-size: 0.9rem; text-align: center; }
+  .cat-btn { flex: 1; padding: 18px 10px; font-size: 1.3rem; text-align: center; }
 
   /* Título CATEGORÍAS en blanco */
   .section-title { color: white !important; }
@@ -463,7 +463,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
   <div class="section-title">CATEGORÍAS</div>
   <div class="cats">
     <button class="cat-btn cat-dtftextil active" onclick="irSeccion('dtf-textil')" id="cat-dtf-textil">DTF TEXTIL</button>
-    <button class="cat-btn cat-dtfuv" onclick="irSeccion('dtf-uv')" id="cat-dtf-uv">DTF UV<br><span style="font-size:0.5rem;letter-spacing:1px;opacity:0.6;">(PRÓXIMAMENTE)</span></button>
+    <button class="cat-btn cat-dtfuv" onclick="irSeccion('dtf-uv')" id="cat-dtf-uv">DTF UV<br><span style="font-size:0.65rem;letter-spacing:1px;opacity:0.6;">(PRÓXIMAMENTE)</span></button>
     <button class="cat-btn cat-indumentaria" onclick="irSeccion('indumentaria')" id="cat-indumentaria">INDUMENTARIA</button>
   </div>
   <div style="margin-top:10px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
@@ -560,26 +560,11 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
 <!-- SECCIÓN INDUMENTARIA -->
 <div id="secIndumentaria" style="display:none;">
 
-<div style="background:#0A0A0F;padding:11px 16px;text-align:center;border-bottom:2px solid;border-image:linear-gradient(90deg,#FF0080,#FFD600) 1;">
-  <span style="font-family:'Bebas Neue',cursive;font-size:0.82rem;color:white;letter-spacing:1.5px;line-height:1.3;">
-    👕 REMERAS 100% ALGODÓN · PROMOS x3 / x5 / x10 👕
-  </span>
-</div>
-
 <div style="background:#F5F4F0;"><div class="cat-header" style="background:#F5F4F0;">
   <div class="cat-titulo" id="catTituloIndu">Remeras</div>
   <div class="cat-count" id="catCountIndu"></div>
 </div>
 <div class="grilla" id="grillaIndu"></div></div>
-
-<!-- Info de envío/retiro para Indumentaria -->
-<div style="background:#0A0A0F;padding:20px 16px;">
-  <div style="display:flex;flex-direction:column;gap:10px;max-width:500px;margin:0 auto;">
-    <div style="display:flex;align-items:center;gap:10px;font-size:0.72rem;color:rgba(255,255,255,0.8);font-weight:600;">📦 Retiro en el taller, Uber o envío por Correo Argentino</div>
-    <div style="display:flex;align-items:center;gap:10px;font-size:0.72rem;color:rgba(255,255,255,0.8);font-weight:600;">⚡ Listo dentro de las 72hs de confirmado el pago</div>
-    <div style="display:flex;align-items:center;gap:10px;font-size:0.72rem;color:rgba(255,255,255,0.8);font-weight:600;">✅ Cuello redondo · Manga ajustada · Algodón 24/1</div>
-  </div>
-</div>
 
 </div><!-- /secIndumentaria -->
 
