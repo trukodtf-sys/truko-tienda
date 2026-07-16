@@ -468,16 +468,13 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
     <button class="cat-btn cat-dtfuv" onclick="irSeccion('dtf-uv')" id="cat-dtf-uv">DTF UV<br><span style="font-size:0.65rem;letter-spacing:1px;opacity:0.6;">(PRÓXIMAMENTE)</span></button>
     <button class="cat-btn cat-indumentaria" onclick="irSeccion('indumentaria')" id="cat-indumentaria">INDUMENTARIA</button>
   </div>
-  <div style="margin-top:10px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
-    <div id="scrollIndicator" style="height:100%;width:33%;background:linear-gradient(90deg,#00B4FF,#FF0080);border-radius:2px;transition:left 0.1s;position:relative;left:0;"></div>
-  </div>
 </div>
 
 <div id="secDtfTextil">
 
-<div style="background:#0A0A0F;padding:11px 16px;text-align:center;border-bottom:2px solid;border-image:linear-gradient(90deg,#00B4FF,#FF0080) 1;">
-  <span style="font-family:'Bebas Neue',cursive;font-size:0.82rem;color:white;letter-spacing:1.5px;line-height:1.3;">
-    🎉 LLEVÁ MÁS, PAGÁ MENOS: HASTA 30% OFF POR TRANSFERENCIA 🎉
+<div style="background:#0A0A0F;padding:14px 16px;text-align:center;border-bottom:2px solid;border-image:linear-gradient(90deg,#00B4FF,#FF0080) 1;">
+  <span style="font-family:'Bebas Neue',cursive;font-size:1.4rem;color:white;letter-spacing:2px;line-height:1.2;">
+    LLEVÁ MÁS, PAGÁ MENOS: HASTA 30% OFF POR TRANSFERENCIA
   </span>
 </div>
 
@@ -911,18 +908,6 @@ async function irAPagar(){
 }
 function mostrarToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 window.mostrarToast = mostrarToast;
-document.addEventListener('DOMContentLoaded', function() {
-  const cats = document.querySelector('.cats');
-  const indicator = document.getElementById('scrollIndicator');
-  if (cats && indicator) {
-    cats.addEventListener('scroll', function() {
-      const maxScroll = cats.scrollWidth - cats.clientWidth;
-      const pct = maxScroll > 0 ? cats.scrollLeft / maxScroll : 0;
-      const maxLeft = 70;
-      indicator.style.left = (pct * maxLeft) + '%';
-    });
-  }
-});
 
 function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
 renderGrilla();
