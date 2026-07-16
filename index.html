@@ -599,6 +599,14 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
     <div id="promoTiersIndu" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
 
     <div class="sec-title">Elegí los talles</div>
+
+    <div style="margin-bottom:12px;">
+      <button onclick="toggleTablaTalles()" id="btnTablaTalles" style="width:100%;padding:10px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;color:white;font-family:'Bebas Neue',cursive;font-size:0.8rem;letter-spacing:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">📏 VER TABLA DE TALLES <span id="flechaTablaTalles" style="transition:transform 0.2s;">▼</span></button>
+      <div id="tablaTallesBox" style="display:none;margin-top:10px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);">
+        <img src="https://res.cloudinary.com/wj5e1cgv/image/upload/v1784167858/tabla_de_talles_truko_ioo8jo.png" style="width:100%;display:block;" alt="Tabla de talles Truko">
+      </div>
+    </div>
+
     <div id="tallesGridIndu" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;"></div>
     <div id="tallesCountIndu" style="font-size:0.62rem;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:14px;"></div>
 
@@ -977,6 +985,11 @@ function abrirSheetIndu(id){
   if(prodActualIndu.imgSrc){img.src=prodActualIndu.imgSrc;img.style.display='block';emoji.style.display='none';}
   else{img.style.display='none';emoji.style.display='block';}
   document.getElementById('sheetNombreIndu').textContent = prodActualIndu.nombre;
+  // Resetear tabla de talles cerrada
+  const tablaBox = document.getElementById('tablaTallesBox');
+  const tablaFlecha = document.getElementById('flechaTablaTalles');
+  if(tablaBox) tablaBox.style.display = 'none';
+  if(tablaFlecha) tablaFlecha.style.transform = 'rotate(0deg)';
   renderPromoTiers();
   renderTallesGrid();
   actualizarBtnIndu();
@@ -1621,6 +1634,16 @@ window.cerrarSheetIndu = cerrarSheetIndu;
 window.selPromoIndu = selPromoIndu;
 window.cambiarTalleIndu = cambiarTalleIndu;
 window.agregarAlCarritoIndu = agregarAlCarritoIndu;
+
+function toggleTablaTalles(){
+  const box = document.getElementById('tablaTallesBox');
+  const flecha = document.getElementById('flechaTablaTalles');
+  if(!box) return;
+  const abierto = box.style.display !== 'none';
+  box.style.display = abierto ? 'none' : 'block';
+  if(flecha) flecha.style.transform = abierto ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+window.toggleTablaTalles = toggleTablaTalles;
 
 // Respaldo: enganchar listeners directamente por si el onclick inline falla
 (function(){
