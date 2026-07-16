@@ -50,18 +50,8 @@
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", CLOUDINARY_PRESET);
-    formData.append("folder", "truko-dtf");
-    formData.append("overwrite", "true");
-    formData.append("invalidate", "true");
-    if (nombreDiseno) {
-      const publicId = nombreDiseno
-        .replace(/\.[^/.]+$/, '')
-        .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚüÜñÑ\s_-]/g, '')
-        .trim()
-        .replace(/\s+/g, '_')
-        + '_' + Date.now();
-      formData.append("public_id", publicId);
-    }
+    // En modo Unsigned solo se permite el preset + file.
+    // El folder y la unicidad del nombre ya vienen definidos en el preset de Cloudinary.
     try {
       const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
         method: "POST",
@@ -69,7 +59,10 @@
       });
       const data = await res.json();
       if (data.secure_url) return data.secure_url;
+      // Mostrar el error real de Cloudinary
+      const msg = data.error && data.error.message ? data.error.message : JSON.stringify(data);
       console.warn("Cloudinary error:", data);
+      if (typeof window.mostrarToast === 'function') window.mostrarToast('⚠ Cloudinary: ' + msg);
       return null;
     } catch(e) { console.warn("Cloudinary: error subiendo", e); return null; }
   };
@@ -922,6 +915,7 @@ async function irAPagar(){
   }
 }
 function mostrarToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+window.mostrarToast = mostrarToast;
 document.addEventListener('DOMContentLoaded', function() {
   const cats = document.querySelector('.cats');
   const indicator = document.getElementById('scrollIndicator');
