@@ -1202,13 +1202,13 @@ function agregarAlCarritoIndu(){
 
       <div style="margin-bottom:10px;">
         <label style="font-size:0.58rem;color:#666;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:4px;">Imagen de la remera</label>
-        <input type="file" accept="image/*" onchange="previewImagenIndu(this)" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #333;border-radius:8px;color:white;font-size:0.65rem;">
+        <input type="file" id="newFileIndu" accept="image/*" onchange="previewImagenIndu(this)" style="width:100%;padding:8px;background:#0A0A0F;border:2px solid #333;border-radius:8px;color:white;font-size:0.65rem;">
         <div id="newImgPreviewIndu" style="display:none;margin-top:8px;border-radius:10px;overflow:hidden;border:2px solid #333;">
           <img id="newImgPreviewImgIndu" style="width:100%;max-height:180px;object-fit:contain;">
         </div>
       </div>
 
-      <button onclick="agregarProductoIndu()" style="width:100%;padding:12px;background:#FF0080;color:white;border:none;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:0.9rem;letter-spacing:3px;cursor:pointer;">👕 GUARDAR REMERA</button>
+      <button id="btnGuardarRemera" onclick="agregarProductoIndu()" style="width:100%;padding:12px;background:#FF0080;color:white;border:none;border-radius:10px;font-family:'Bebas Neue',cursive;font-size:0.9rem;letter-spacing:3px;cursor:pointer;">👕 GUARDAR REMERA</button>
     </div>
 
     <div style="background:#111;border-radius:14px;padding:20px;margin-bottom:16px;border:1px solid #333;">
@@ -1526,31 +1526,39 @@ async function agregarProductoIndu(){
   const nombre = document.getElementById('newNombreIndu').value.trim();
   if(!nombre){mostrarToast('⚠ Poné un nombre a la remera');return;}
 
+  // Leer el archivo DIRECTO del input, no de la variable
+  const fileInput = document.getElementById('newFileIndu');
+  const file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+
+  if(!file){mostrarToast('⚠ Seleccioná una imagen primero');return;}
+
   let imgUrl = null;
-  if(window._archivoImagenInduPendiente){
-    mostrarToast('⏳ Subiendo imagen a Cloudinary...');
-    if(typeof window.cloudinarySubir === 'function'){
-      try {
-        imgUrl = await window.cloudinarySubir(window._archivoImagenInduPendiente, nombre);
-      } catch(err) {
-        console.error('Cloudinary error:', err);
-        mostrarToast('⚠ Error Cloudinary: ' + (err.message||err));
-        return;
-      }
-      if(!imgUrl){mostrarToast('⚠ Error al subir imagen. ¿Creaste el preset truko-dtf en Cloudinary?');return;}
-    } else {
-      mostrarToast('⚠ Cloudinary no disponible');
+  mostrarToast('⏳ Subiendo imagen a Cloudinary...');
+  if(typeof window.cloudinarySubir === 'function'){
+    try {
+      imgUrl = await window.cloudinarySubir(file, nombre);
+    } catch(err) {
+      console.error('Cloudinary error:', err);
+      mostrarToast('⚠ Error Cloudinary: ' + (err.message||err));
       return;
     }
+    if(!imgUrl){mostrarToast('⚠ Falló la subida. Revisá que exista el preset truko-dtf en Cloudinary');return;}
+  } else {
+    mostrarToast('⚠ Cloudinary no disponible');
+    return;
   }
+
+  // Leer el fondo directo del radio marcado
+  const fondoRadio = document.querySelector('input[name="fondoIndu"]:checked');
+  const fondo = fondoRadio ? fondoRadio.value : 'blanco';
 
   const newId = Date.now();
   const nuevoProd = {
     id: newId,
     nombre: nombre,
     emoji: '👕',
-    imgSrc: imgUrl || null,
-    fondo: window._fondoActualIndu,
+    imgSrc: imgUrl,
+    fondo: fondo,
     tipo: 'indumentaria'
   };
 
@@ -1570,7 +1578,7 @@ async function agregarProductoIndu(){
   }
 
   productosIndu.push(nuevoProd);
-  window._archivoImagenInduPendiente = null;
+  fileInput.value = '';
   document.getElementById('newNombreIndu').value = '';
   document.getElementById('newImgPreviewIndu').style.display = 'none';
   document.getElementById('newImgPreviewImgIndu').src = '';
@@ -1619,6 +1627,30 @@ window.cerrarSheetIndu = cerrarSheetIndu;
 window.selPromoIndu = selPromoIndu;
 window.cambiarTalleIndu = cambiarTalleIndu;
 window.agregarAlCarritoIndu = agregarAlCarritoIndu;
+
+// Respaldo: enganchar listeners directamente por si el onclick inline falla
+(function(){
+  function engancharIndu(){
+    const btn = document.getElementById('btnGuardarRemera');
+    if(btn && !btn._enganchado){
+      btn._enganchado = true;
+      btn.addEventListener('click', function(e){ e.preventDefault(); agregarProductoIndu(); });
+    }
+    const inp = document.getElementById('newFileIndu');
+    if(inp && !inp._enganchado){
+      inp._enganchado = true;
+      inp.addEventListener('change', function(){ previewImagenIndu(inp); });
+    }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', engancharIndu);
+  } else {
+    engancharIndu();
+  }
+  // Reintentar por si el admin se renderiza después
+  setTimeout(engancharIndu, 500);
+  setTimeout(engancharIndu, 1500);
+})();
 </script>
 
 </body>
