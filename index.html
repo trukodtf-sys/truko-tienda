@@ -1526,11 +1526,22 @@ async function agregarProductoIndu(){
   const nombre = document.getElementById('newNombreIndu').value.trim();
   if(!nombre){mostrarToast('⚠ Poné un nombre a la remera');return;}
 
-  mostrarToast('⏳ Subiendo imagen...');
   let imgUrl = null;
-  if(window._archivoImagenInduPendiente && typeof window.cloudinarySubir === 'function'){
-    imgUrl = await window.cloudinarySubir(window._archivoImagenInduPendiente, nombre);
-    if(!imgUrl){mostrarToast('⚠ Error al subir la imagen');return;}
+  if(window._archivoImagenInduPendiente){
+    mostrarToast('⏳ Subiendo imagen a Cloudinary...');
+    if(typeof window.cloudinarySubir === 'function'){
+      try {
+        imgUrl = await window.cloudinarySubir(window._archivoImagenInduPendiente, nombre);
+      } catch(err) {
+        console.error('Cloudinary error:', err);
+        mostrarToast('⚠ Error Cloudinary: ' + (err.message||err));
+        return;
+      }
+      if(!imgUrl){mostrarToast('⚠ Error al subir imagen. ¿Creaste el preset truko-dtf en Cloudinary?');return;}
+    } else {
+      mostrarToast('⚠ Cloudinary no disponible');
+      return;
+    }
   }
 
   const newId = Date.now();
@@ -1543,10 +1554,19 @@ async function agregarProductoIndu(){
     tipo: 'indumentaria'
   };
 
-  mostrarToast('⏳ Guardando...');
+  mostrarToast('⏳ Guardando en Firestore...');
   if(typeof window.fbGuardarProductoIndu === 'function'){
-    const fireId = await window.fbGuardarProductoIndu(nuevoProd);
-    if(fireId) nuevoProd.fireId = fireId;
+    try {
+      const fireId = await window.fbGuardarProductoIndu(nuevoProd);
+      if(fireId) nuevoProd.fireId = fireId;
+    } catch(err) {
+      console.error('Firebase error:', err);
+      mostrarToast('⚠ Error Firebase: ' + (err.message||err));
+      return;
+    }
+  } else {
+    mostrarToast('⚠ Firebase no disponible');
+    return;
   }
 
   productosIndu.push(nuevoProd);
@@ -1558,6 +1578,7 @@ async function agregarProductoIndu(){
   renderAdminProductsIndu();
   mostrarToast('✓ ' + nombre + ' guardada');
 }
+window.agregarProductoIndu = agregarProductoIndu;
 
 function renderAdminProductsIndu(){
   const c = document.getElementById('adminProductsIndu');
@@ -1591,6 +1612,13 @@ async function eliminarProductoIndu(id){
 window.renderAdminProducts = renderAdminProducts;
 window.renderGrillaIndu = renderGrillaIndu;
 window.renderAdminProductsIndu = renderAdminProductsIndu;
+window.previewImagenIndu = previewImagenIndu;
+window.eliminarProductoIndu = eliminarProductoIndu;
+window.abrirSheetIndu = abrirSheetIndu;
+window.cerrarSheetIndu = cerrarSheetIndu;
+window.selPromoIndu = selPromoIndu;
+window.cambiarTalleIndu = cambiarTalleIndu;
+window.agregarAlCarritoIndu = agregarAlCarritoIndu;
 </script>
 
 </body>
