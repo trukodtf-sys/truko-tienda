@@ -250,6 +250,7 @@ body.has-cart-bar .wa-float { bottom:90px; }
 .cats::-webkit-scrollbar { display:none; }
 .cat-btn { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:6px; padding:10px 8px; border-radius:14px; font-family:'Bebas Neue',cursive; font-size:0.95rem; letter-spacing:2px; cursor:pointer; border:1.5px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.5); white-space:nowrap; transition:all 0.2s; min-width:60px; }
 .cat-btn svg { flex-shrink:0; }
+.talles-grid.activa { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
 .cat-btn.active { background:rgba(255,255,255,0.08); color:white; }
 .cat-btn:hover { color:white; }
 .cat-btn.active.cat-dtftextil { border-color:#00B4FF; color:#00B4FF; }
@@ -374,6 +375,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
   .sheet { max-width:100%; display:flex; flex-direction:row; }
   .sheet-img { width:55%; min-height:100vh; position:sticky; top:0; }
   .sheet-body { width:45%; padding:40px 32px; overflow-y:auto; max-height:100vh; }
+  .talles-grid.activa { grid-template-columns:repeat(6,1fr); }
   .carrito-panel { left: auto; right: 0; width: 420px; box-shadow: -4px 0 40px rgba(0,0,0,0.3); }
   .como-comprar { padding: 40px; }
   .como-steps { flex-direction: row; gap: 40px; }
@@ -592,7 +594,7 @@ footer { background:#060608; padding:28px 16px; text-align:center; border-top:1p
       </div>
     </div>
 
-    <div id="tallesGridIndu" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;"></div>
+    <div id="tallesGridIndu" class="talles-grid" style="margin-bottom:16px;"></div>
     <div id="tallesCountIndu" style="font-size:0.62rem;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:14px;"></div>
 
     <button class="btn-add" id="btnAddIndu" onclick="agregarAlCarritoIndu()" disabled>🛒 Seleccioná una promo primero</button>
@@ -1017,26 +1019,35 @@ function renderTallesGrid(){
   const info = document.getElementById('tallesCountIndu');
   if(!box) return;
   if(!promoSelIndu){
-    box.innerHTML = '<div style="font-size:0.62rem;color:rgba(255,255,255,0.4);padding:8px;">Seleccioná una promo primero para elegir talles</div>';
+    box.classList.remove('activa');
+    box.innerHTML = '<div style="width:100%;text-align:center;font-size:0.65rem;color:rgba(255,255,255,0.4);padding:14px;background:rgba(255,255,255,0.03);border-radius:10px;">👆 Seleccioná una promo primero para elegir los talles</div>';
     info.textContent = '';
     return;
   }
+  box.classList.add('activa');
   const totalSel = Object.values(tallesSelIndu).reduce((s,v)=>s+v,0);
   const max = promoSelIndu.cant;
+  const canAdd = totalSel < max;
   box.innerHTML = TALLES_INDU.map(t=>{
     const cnt = tallesSelIndu[t]||0;
-    const canAdd = totalSel < max;
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px;min-width:52px;">
-      <div style="font-size:0.58rem;color:rgba(255,255,255,0.7);font-weight:900;letter-spacing:1px;">${t}</div>
-      <div style="display:flex;align-items:center;gap:4px;">
-        <button onclick="cambiarTalleIndu('${t}',-1)" style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:none;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" ${cnt===0?'disabled':''}>−</button>
-        <span style="font-size:0.75rem;color:${cnt>0?'#FF0080':'rgba(255,255,255,0.4)'};font-weight:900;min-width:14px;text-align:center;">${cnt}</span>
-        <button onclick="cambiarTalleIndu('${t}',1)" style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:none;color:white;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;" ${!canAdd?'disabled':''}>+</button>
+    const activo = cnt > 0;
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;border-radius:12px;border:2px solid ${activo?'#FF0080':'rgba(255,255,255,0.1)'};background:${activo?'rgba(255,0,128,0.12)':'rgba(255,255,255,0.03)'};transition:all 0.15s;">
+      <div style="font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:1px;color:${activo?'#FF0080':'rgba(255,255,255,0.85)'};line-height:1;">${t}</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button onclick="cambiarTalleIndu('${t}',-1)" style="width:26px;height:26px;border-radius:8px;border:none;background:${cnt===0?'rgba(255,255,255,0.06)':'rgba(255,255,255,0.15)'};color:${cnt===0?'rgba(255,255,255,0.25)':'white'};font-size:1rem;cursor:${cnt===0?'default':'pointer'};display:flex;align-items:center;justify-content:center;line-height:1;" ${cnt===0?'disabled':''}>−</button>
+        <span style="font-size:1rem;color:${activo?'#FF0080':'rgba(255,255,255,0.4)'};font-weight:900;min-width:18px;text-align:center;">${cnt}</span>
+        <button onclick="cambiarTalleIndu('${t}',1)" style="width:26px;height:26px;border-radius:8px;border:none;background:${!canAdd?'rgba(255,255,255,0.06)':'#FF0080'};color:${!canAdd?'rgba(255,255,255,0.25)':'white'};font-size:1rem;cursor:${!canAdd?'default':'pointer'};display:flex;align-items:center;justify-content:center;line-height:1;" ${!canAdd?'disabled':''}>+</button>
       </div>
     </div>`;
   }).join('');
-  info.textContent = totalSel + '/' + max + ' talles seleccionados';
-  info.style.color = totalSel===max ? '#FF0080' : 'rgba(255,255,255,0.5)';
+  const restantes = max - totalSel;
+  if(totalSel === max){
+    info.innerHTML = '✓ ' + max + ' talles seleccionados';
+    info.style.color = '#FF0080';
+  } else {
+    info.innerHTML = 'Elegí ' + max + ' talles en total · te faltan ' + restantes;
+    info.style.color = 'rgba(255,255,255,0.5)';
+  }
 }
 
 function cambiarTalleIndu(talle, delta){
